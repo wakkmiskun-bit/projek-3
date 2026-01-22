@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #e8e3da;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+header {
+    background: #6b5b4a;
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 28px;
+    margin-bottom: 5px;
+}
+
+header p {
+    font-size: 14px;
+    color: #d4c9bb;
+}
+
+.mobil-list {
+    display: grid;
+    gap: 20px;
+}
+
+.mobil-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    border-left: 4px solid #8b7355;
+}
+
+.mobil-info {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 15px;
+    align-items: center;
+}
+
+.mobil-icon {
+    font-size: 50px;
+    background: #f5f1eb;
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+}
+
+.mobil-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.detail-row {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+}
+
+.detail-label {
+    color: #8b7355;
+    font-weight: bold;
+    min-width: 80px;
+}
+
+.detail-value {
+    color: #4a4a4a;
+}
+
+.harga {
+    font-size: 22px;
+    font-weight: bold;
+    color: #6b5b4a;
+}
+
+.mobil-id {
+    color: #999;
+    font-size: 12px;
+}
+
+@media (max-width: 600px) {
+    .mobil-info {
+        grid-template-columns: 1fr;
+    }
+    
+    .mobil-icon {
+        margin: 0 auto;
+    }
+
+    .detail-row {
+        flex-direction: column;
+        gap: 2px;
+    }
+}
+.mobil-action{
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 15px;
+}
+.mobil-action button {
+    padding: 8px 14px;
+    border:nome;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.btn-detail {
+    background-color: #8b7355;
+}
+.btn-beli {
+    background-color: #6b5b4a;
+}
+.mobil-action button:hover {
+    opacity: 0.8;
+}

@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BeliController;
+
+Route::resource('beli', BeliController::class);
 
 /*
 |--------------------------------------------------------------------------

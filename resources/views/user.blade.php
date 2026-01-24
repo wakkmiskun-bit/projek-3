@@ -23,7 +23,8 @@
             <a href="#katalog" class="nav-link" onclick="scrollToSection('katalog'); return false;">Katalog</a>
             <a href="#tentang" class="nav-link" onclick="scrollToSection('tentang'); return false;">Tentang</a>
             <a href="#kontak" class="nav-link" onclick="scrollToSection('kontak'); return false;">Kontak</a>
-            <a href="#admin" class="nav-link admin-link" onclick="toggleAdmin(); return false;">👨‍💼 Admin</a>
+            <a href="{{ route('admin.login') }}" class="nav-link admin-link">👨‍💼 Admin</a>
+
         </div>
     </div>
 </nav>
@@ -255,22 +256,6 @@
         </div>
     </section>
 
-</div>
-
-<!-- ADMIN PANEL 1 -->
-<div id="admin-panel-1" class="admin-panel hidden">
-    <div class="admin-content">
-        <button class="admin-close" onclick="toggleAdmin()">✕</button>
-        <h2>👨‍💼 Admin Panel 1</h2>
-        <div class="admin-info">
-            <p><strong>Nama:</strong> Ahmad Riyanto</p>
-            <p><strong>Posisi:</strong> Sales Manager</p>
-            <p><strong>Telepon:</strong> +62 851 9116 3819</p>
-            <p><strong>Email:</strong> ahmad@autoshow.com</p>
-            <p><strong>Jam Kerja:</strong> 08:00 - 18:00</p>
-        </div>
-        <button class="admin-btn" onclick="window.open('https://wa.me/6285191163819?text=Halo%20Ahmad', '_blank')">💬 Chat WhatsApp</button>
-    </div>
 </div>
 
 

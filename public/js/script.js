@@ -22,20 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, 100);
 
-    // ===== ADMIN PANELS =====
-    window.toggleAdmin = function() {
-        const adminPanel = document.getElementById('admin-panel-1');
-        if (adminPanel) {
-            adminPanel.classList.toggle('hidden');
-        }
-    };
 
-    document.addEventListener('click', function(e) {
-        const adminPanel1 = document.getElementById('admin-panel-1');
-        if (adminPanel1 && e.target === adminPanel1) {
-            adminPanel1.classList.add('hidden');
-        }
-    });
 
     // ===== MODAL ELEMENTS =====
     const formModal = document.getElementById('formModal');

@@ -35,7 +35,14 @@
             <a href="#"><i class="fas fa-shopping-cart me-2"></i> Data Pembelian</a>
             <a href="#"><i class="fas fa-users me-2"></i> Staff Admin</a>
             <hr>
-            <a href="/logout" class="text-danger"><i class="fas fa-sign-out-alt me-2"></i> Logout</a>
+            <a href="#" class="nav-link text-danger" 
+   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    <i class="fas fa-sign-out-alt me-2"></i> Logout
+</a>
+
+<form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+    @csrf
+</form>
         </nav>
     </div>
 

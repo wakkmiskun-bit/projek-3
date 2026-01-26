@@ -14,7 +14,8 @@ Route::get('/', function () {
 
 // BELI
 Route::resource('beli', BeliController::class);
-
+// Di web.php
+Route::post('/logout', [App\Http\Controllers\AdminAuthController::class, 'logout'])->name('logout');
 
 // LOGIN ADMIN
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');

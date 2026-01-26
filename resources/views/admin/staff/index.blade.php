@@ -22,7 +22,9 @@
 <div class="sidebar shadow">
     <h4>🚗 Admin Panel</h4>
     <a href="{{ route('admin.dashboard') }}">🏠 Dashboard</a>
-    <a href="#">📦 Data Mobil</a>
+    <a href="{{ route('mobil.index') }}" class="nav-link">
+        <i class="fas fa-car"></i> Data Mobil
+    </a>
     <a href="{{ route('beli.index') }}">🛒 Data Pembelian</a>
     <a href="{{ route('manage-admin.index') }}" class="active">👥 Staff Admin</a>
 </div>

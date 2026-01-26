@@ -33,7 +33,9 @@
                 <i class="fas fa-car me-2"></i> Data Mobil
             </a>
             <a href="#"><i class="fas fa-shopping-cart me-2"></i> Data Pembelian</a>
-            <a href="#"><i class="fas fa-users me-2"></i> Staff Admin</a>
+            <a href="{{ route('manage-admin.index') }}" class="nav-link {{ request()->is('manage-admin*') ? 'active' : '' }}">
+    <i class="fas fa-users-cog me-2"></i> Staff Admin
+</a>
             <hr>
             <a href="#" class="nav-link text-danger" 
    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

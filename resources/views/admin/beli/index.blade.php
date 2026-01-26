@@ -1,60 +1,54 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <title>Data Pembelian</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; }
-        .sidebar { height: 100vh; width: 240px; position: fixed; background: #1d3557; color: white; padding-top: 20px; z-index: 1000; }
-        .sidebar h4 { text-align: center; margin-bottom: 30px; font-weight: bold; }
-        .sidebar a { display: block; color: rgba(255,255,255,0.8); padding: 12px 20px; text-decoration: none; transition: 0.3s; }
-        .sidebar a:hover, .sidebar a.active { background: #457b9d; color: white; border-left: 5px solid #e63946; }
-        .content { margin-left: 240px; padding: 30px; min-height: 100vh; }
-        .card-table { background: white; border-radius: 12px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    </style>
-</head>
-<body>
+@extends('admin.admin')
 
-<div class="sidebar shadow">
-    <h4>🚗 Admin Panel</h4>
-    <a href="{{ route('admin.dashboard') }}">🏠 Dashboard</a>
-    <a href="{{ route('mobil.index') }}" class="nav-link">
-        <i class="fas fa-car"></i> Data Mobil
-    </a>
-    <a href="{{ route('beli.index') }}" class="active">🛒 Data Pembelian</a>
-    <a href="{{ route('manage-admin.index') }}">👥 Staff Admin</a>
+@section('main-content')
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0 text-dark">🛒 Data Pembelian</h2>
 </div>
 
-<div class="content">
-    <h2 class="fw-bold mb-4">Data Pembelian</h2>
-    <div class="card-table">
-        <table class="table table-hover">
-            <thead class="table-dark">
-                <tr>
-                    <th>No</th><th>Nama</th><th>Telepon</th><th>Alamat</th><th class="text-center">Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($belis as $item)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td><b>{{ $item->nama }}</b></td>
-                    <td><span class="badge bg-success">{{ $item->no_telepon }}</span></td>
-                    <td>{{ $item->alamat }}</td>
-                    <td class="text-center">
-                        <form action="{{ route('beli.destroy', $item->id) }}" method="POST">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus?')"><i class="fas fa-trash"></i></button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+<div class="card shadow border-0 rounded-3">
+    <div class="card-body p-4">
+        @if(session('success'))
+            <div class="alert alert-success border-0 shadow-sm">{{ session('success') }}</div>
+        @endif
+
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th width="50">No</th>
+                        <th>Nama Pembeli</th>
+                        <th>Telepon</th>
+                        <th>Alamat</th>
+                        <th class="text-center" width="100">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($belis as $item)
+                    <tr>
+                        <td>{{ $loop->iteration }}</td>
+                        <td><strong>{{ $item->nama }}</strong></td>
+                        <td><span class="badge bg-success">{{ $item->no_telepon }}</span></td>
+                        <td>{{ $item->alamat }}</td>
+                        <td class="text-center">
+                            <form action="{{ route('beli.destroy', $item->id) }}" method="POST" class="d-inline">
+                                @csrf 
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-outline-danger shadow-sm" onclick="return confirm('Hapus data pembelian ini?')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+
+                    @if($belis->isEmpty())
+                    <tr>
+                        <td colspan="5" class="text-center text-muted py-4">Belum ada data pembelian masuk.</td>
+                    </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-</body>
-</html>
+@endsection

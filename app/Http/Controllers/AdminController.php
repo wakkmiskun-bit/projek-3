@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Mobil;      // Pastikan Model Mobil ada
+use App\Models\Pembelian;  // Pastikan Model Pembelian ada
+use App\Models\User;       // Pastikan Model User ada
 use Illuminate\Http\Request;
-use App\Models\Mobil;     // Tambahkan ini
-use App\Models\Pembelian; // Tambahkan ini (Pastikan nama model sesuai)
-use App\Models\User;      // Tambahkan ini
 
 class AdminController extends Controller
 {
     public function dashboard()
-{
-    // Ini akan menghitung jumlah baris asli di tabel mobil Anda
-    $totalMobil = \App\Models\Mobil::count(); 
-    
-    $totalPesanan = 0; // Sementara 0 jika tabel pembelian belum ada
-    $totalUser = \App\Models\User::count();
+    {
+        // Mengambil jumlah data real-time dari database
+        $totalMobil = Mobil::count();
+        $totalPesanan = Pembelian::count(); 
+        $totalUser = User::count();
 
-    return view('admin.dashboard', compact('totalMobil', 'totalPesanan', 'totalUser'));
-}
+        // Mengirimkan data ke view admin.dashboard
+        return view('admin.dashboard', compact('totalMobil', 'totalPesanan', 'totalUser'));
+    }
 }

@@ -136,43 +136,48 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     };
 
-    // ===== SUBMIT FORM → WHATSAPP =====
-    if (userForm) {
-        userForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+    // Gunakan variabel di luar scope agar tidak bisa di-reset oleh klik baru
+let sedanganMengirim = false;
 
-            const nama = userForm.nama.value;
-            const email = userForm.email.value;
-            const telepon = userForm.telepon.value;
-            const alamat = userForm.alamat.value;
-            const kota = userForm.kota.value;
+document.getElementById('userForm').onsubmit = function(e) {
+    e.preventDefault();
 
-            const pesan = `
-Halo Admin, saya ingin memesan mobil:
+    // 1. Jika sedang mengirim, blokir total
+    if (sedanganMengirim) return false;
 
-🚗 Mobil : ${mobilData.nama}
-🆔 Seri  : ${mobilData.id}
-💰 Harga : ${mobilData.harga}
+    const btn = document.getElementById('submitBtn');
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-👤 Nama  : ${nama}
-📧 Email : ${email}
-📞 Telp  : ${telepon}
-🏠 Alamat: ${alamat}
-🏙️ Kota  : ${kota}
-            `;
+    // 2. Kunci status & visual tombol
+    sedanganMengirim = true;
+    btn.disabled = true;
+    btn.innerText = "Proses...";
 
-            const noWA = "6285191163819";
-            const url = `https://wa.me/${noWA}?text=${encodeURIComponent(pesan)}`;
+    fetch("/beli-mobil", {
+        method: "POST",
+        body: new FormData(this),
+        headers: {
+            'X-CSRF-TOKEN': csrfToken,
+            'Accept': 'application/json'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert("✅ Pesanan Berhasil!");
+        // 3. Refresh halaman adalah cara paling ampuh mencegah double post di database
+        window.location.href = "/admin/pembelian";
+    })
+    .catch(error => {
+        console.error(error);
+        alert("Gagal kirim data.");
+        // Buka kunci hanya jika gagal
+        sedanganMengirim = false;
+        btn.disabled = false;
+        btn.innerText = "KIRIM PEMBELIAN";
+    });
 
-            window.open(url, '_blank');
-            
-            userForm.reset();
-            if (formModal) {
-                formModal.classList.remove('show');
-                formModal.style.display = 'none';
-            }
-        });
-    }
+    return false;
+};
 
 });
 

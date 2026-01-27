@@ -1,48 +1,38 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\FrontController;
 use App\Http\Controllers\BeliController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManageAdminController;
 use App\Http\Controllers\MobilController;
 
-// HALAMAN USER
+// --- HALAMAN USER ---
 Route::get('/', function () {
     return view('user');
 });
+Route::post('/beli-mobil', [BeliController::class, 'store'])->name('pembelian.store');
 
-// BELI
-Route::resource('beli', BeliController::class);
-// Di web.php
-Route::post('/logout', [App\Http\Controllers\AdminAuthController::class, 'logout'])->name('logout');
-
-// LOGIN ADMIN
+// --- LOGIN & LOGOUT ---
 Route::get('/admin/login', [AdminAuthController::class, 'showLogin'])->name('admin.login');
 Route::post('/admin/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-Route::get('/mobil', [MobilController::class, 'index'])->name('mobil.index');
-Route::post('/mobil', [MobilController::class, 'store'])->name('mobil.store');
-
-Route::get('/mobil/{id}/edit', [MobilController::class, 'edit'])->name('mobil.edit');
-Route::put('/mobil/{id}', [MobilController::class, 'update'])->name('mobil.update');
-
-// Tambahkan baris ini di routes/web.php
-Route::delete('/mobil/{id}', [MobilController::class, 'destroy'])->name('mobil.destroy');
-
-Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
-
-// --- RUTE KHUSUS ADMIN ---
+// --- AREA ADMIN (DIPROTEKSI LOGIN) ---
 Route::middleware(['auth'])->group(function () {
     
     // Dashboard
     Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
 
+    // CRUD Mobil
+    Route::resource('mobil', MobilController::class);
+    Route::delete('/mobil/{id}', [MobilController::class, 'destroy'])->name('mobil.destroy');
+
     // CRUD Staff Admin
     Route::resource('manage-admin', ManageAdminController::class);
 
-    // Lihat Data Pembelian
-    Route::get('/admin/beli', [BeliController::class, 'index'])->name('beli.index');
-    Route::delete('/admin/beli/{id}', [BeliController::class, 'destroy'])->name('beli.destroy');
+    // Data Pembelian
+    Route::get('/admin/pembelian', [BeliController::class, 'index'])->name('admin.pembelian');
+    Route::delete('/admin/pembelian/{id}', [BeliController::class, 'destroy'])->name('pembelian.destroy');
 });

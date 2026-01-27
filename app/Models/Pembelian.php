@@ -13,5 +13,5 @@ class Pembelian extends Model
     protected $table = 'pembelians'; 
 
     // Tambahkan ini agar data bisa disimpan (Mass Assignment)
-    protected $guarded = []; 
+    protected $fillable = ['nama', 'email', 'telepon', 'alamat', 'kota'];
 }

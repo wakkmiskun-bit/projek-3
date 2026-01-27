@@ -39,4 +39,6 @@ class AdminAuthController extends Controller
     // Arahkan kembali ke halaman login admin
     return redirect('/admin/login'); 
 }
+
+
 }

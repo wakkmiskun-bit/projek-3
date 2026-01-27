@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Promosi Mobil - Showroom Kendaraan Terpercaya</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
 
 <!-- NAVBAR DENGAN LOGO -->
@@ -209,7 +211,7 @@
                     data-harga="Rp 345.000.000">🛒 Beli</button>
             </div>
         </div>
-
+    
     </div>
     </section>
 
@@ -260,16 +262,17 @@
 
 
 <!-- MODAL BELI -->
+<!-- ========== MODAL FORM BELI ========== -->
 <div id="formModal" class="modal">
     <div class="modal-content">
-        <span class="close">&times;</span>
+        <span class="close" onclick="closeForm()">&times;</span>
         <h2>📝 Formulir Pembelian Kendaraan</h2>
 
-        <form id="userForm">
-            <input type="hidden" id="mobilId">
+        <form id="userForm" class="form-grid" method="POST" action="{{ route('pembelian.store') }}">
+            @csrf
 
             <div class="form-group">
-                <label>Nama Lengkap</label>
+                <label>Nama</label>
                 <input type="text" name="nama" required>
             </div>
 
@@ -279,13 +282,8 @@
             </div>
 
             <div class="form-group">
-                <label>No. Telepon</label>
-                <input type="tel" name="telepon" required>
-            </div>
-
-            <div class="form-group">
-                <label>Alamat</label>
-                <textarea name="alamat" required></textarea>
+                <label>Telepon</label>
+                <input type="text" name="telepon" required>
             </div>
 
             <div class="form-group">
@@ -293,13 +291,21 @@
                 <input type="text" name="kota" required>
             </div>
 
-            <div class="form-actions">
-                <button type="submit" class="btn-submit">✓ Beli Sekarang</button>
-                <button type="button" class="btn-cancel" id="cancelBtn">✕ Batal</button>
+            <div class="form-group full">
+                <label>Alamat</label>
+                <textarea name="alamat" required></textarea>
+            </div>
+
+            <div class="form-group full" style="margin-top:10px;">
+            <button type="submit" style="background-color: #6f42c1; color: white; border: none; padding: 10px; width: 100%; cursor: pointer;">
+    KIRIM PEMBELIAN
+</button>
             </div>
         </form>
     </div>
 </div>
+<!-- ========== END MODAL ========== -->
+
 
 <!-- MODAL DETAIL -->
 <div id="detailModal" class="modal">
@@ -369,5 +375,6 @@
 </footer>
 
 <script src="{{ asset('js/script.js') }}"></script>
+<script src="{{ asset('js/pembelian.js') }}"></script>
 </body>
 </html>

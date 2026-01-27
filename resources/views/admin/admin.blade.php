@@ -32,7 +32,12 @@
             <a href="{{ route('mobil.index') }}" class="{{ request()->is('mobil*') ? 'active' : '' }}">
                 <i class="fas fa-car me-2"></i> Data Mobil
             </a>
-            <a href="#"><i class="fas fa-shopping-cart me-2"></i> Data Pembelian</a>
+            <li class="nav-item">
+    <a class="nav-link" href="{{ route('admin.pembelian') }}">
+        <i class="fas fa-fw fa-shopping-cart"></i>
+        <span>Data Pembelian</span>
+    </a>
+</li>
             <a href="{{ route('manage-admin.index') }}" class="nav-link {{ request()->is('manage-admin*') ? 'active' : '' }}">
     <i class="fas fa-users-cog me-2"></i> Staff Admin
 </a>
@@ -59,6 +64,7 @@
 
         <div class="p-4">
             @yield('main-content')
+            @yield('content')
         </div>
     </div>
 

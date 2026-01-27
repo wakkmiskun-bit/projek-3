@@ -14,6 +14,7 @@ class DatabaseSeeder extends Seeder
 {
     $this->call([
         BeliSeeder::class,
+        MobilSeeder::class, // Tambahkan baris ini
     ]);
 }
 }

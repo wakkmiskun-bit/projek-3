@@ -9,16 +9,19 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up() {
-        Schema::create('pembelians', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('mobil_id')->constrained('mobils')->onDelete('cascade');
-            $table->string('nama_pembeli');
-            $table->integer('jumlah');
-            $table->integer('total_harga');
-            $table->timestamps();
-        });
-    }
+    public function up(): void
+{
+    Schema::create('pembelians', function (Blueprint $table) {
+        $table->id();
+        $table->string('nama');    // Ini yang bikin error tadi!
+        $table->string('email');
+        $table->string('telepon');
+        $table->string('kota');
+        $table->text('alamat');
+        $table->timestamps();
+    });
+}
+    
 
     /**
      * Reverse the migrations.

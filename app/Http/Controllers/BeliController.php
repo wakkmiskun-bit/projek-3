@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pembelian; // Pastikan menggunakan model Pembelian secara konsisten
 
+
 class BeliController extends Controller
 {
     public function index()
@@ -14,36 +15,25 @@ class BeliController extends Controller
         return view('admin.pembelian', compact('pembelians'));
     }
 
-    public function store(Request $request) 
-    {
-        // 1. Validasi Input
-        $request->validate([
-            'nama' => 'required',
-            'email' => 'required|email',
-            'telepon' => 'required',
-            'kota' => 'required',
-            'alamat' => 'required',
-        ]);
+    public function store(Request $request)
+{
+    // Simpan ke database (Dashboard)
+    \App\Models\Pembelian::create($request->all());
 
-        // 2. Cek Duplikat (Anti Spam)
-        $duplikat = Pembelian::where('nama', $request->nama)
-                    ->where('telepon', $request->telepon)
-                    ->where('created_at', '>=', now()->subSeconds(10))
-                    ->first();
+    // AMBIL DATA DARI FORM (PENTING: Agar tidak merah lagi)
+    $nama = $request->nama; 
+    $mobil = $request->nama_mobil; 
 
-        if ($duplikat) {
-            return response()->json(['message' => 'Data sedang diproses, mohon tunggu sebentar.'], 422);
-        }
+    // Susun Link WA
+    $urlWa = "https://wa.me/6281234567890?text=" . urlencode("Halo, saya $nama ingin membeli unit $mobil");
 
-        // 3. Simpan ke Database
-        Pembelian::create($request->all());
+    // Kirim URL ke JavaScript
+    return response()->json([
+        'message' => 'Pesanan Berhasil! Data sudah masuk ke sistem.',
+        'target_url' => $urlWa
+    ]);
+}
 
-        // 4. Kirim Respon JSON (Agar user tetap di halaman katalog)
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Pesanan berhasil dikirim! Silahkan cek riwayat atau tunggu admin menghubungi Anda.'
-        ]);
-    }
 
     public function destroy($id)
     {
@@ -54,4 +44,5 @@ class BeliController extends Controller
         // Redirect kembali ke halaman daftar pembelian admin
         return redirect()->route('admin.pembelian')->with('success', 'Data berhasil dihapus');
     }
+    
 }

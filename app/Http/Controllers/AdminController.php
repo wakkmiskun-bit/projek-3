@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
+
+    public function index() {
+        $mobils = Mobil::all();
+        return view('admin.mobil.index', compact('mobils'));
+    }
+
     public function dashboard()
     {
         // Mengambil jumlah data real-time dari database

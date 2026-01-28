@@ -8,9 +8,12 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ManageAdminController;
 use App\Http\Controllers\MobilController;
 
+
 // --- HALAMAN USER ---
+// web.php
 Route::get('/', function () {
-    return view('user');
+    $mobils = \App\Models\Mobil::all();
+    return view('user', compact('mobils'));
 });
 Route::post('/beli-mobil', [BeliController::class, 'store'])->name('pembelian.store');
 

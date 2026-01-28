@@ -114,28 +114,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // ===== CLOSE MODAL DETAIL =====
-    if (closeDetail) {
-        closeDetail.onclick = function(e) {
-            e.preventDefault();
-            if (detailModal) {
-                detailModal.classList.remove('show');
-                detailModal.style.display = 'none';
-            }
-        };
-    }
-
-    // ===== CLOSE MODAL WHEN CLICKING OUTSIDE =====
-    window.onclick = function (e) {
-        if (formModal && e.target === formModal) {
-            formModal.classList.remove('show');
-            formModal.style.display = 'none';
-        }
-        if (detailModal && e.target === detailModal) {
-            detailModal.classList.remove('show');
-            detailModal.style.display = 'none';
-        }
-    };
-
     // Gunakan variabel di luar scope agar tidak bisa di-reset oleh klik baru
 let sedanganMengirim = false;
 
@@ -146,38 +124,83 @@ document.getElementById('userForm').onsubmit = function(e) {
     if (sedanganMengirim) return false;
 
     const btn = document.getElementById('submitBtn');
+    const formElement = document.getElementById('userForm');
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    // DEFALUT FORM DATA (Ini yang tadi kurang di kodemu)
+    const formData = new FormData(formElement);
 
     // 2. Kunci status & visual tombol
     sedanganMengirim = true;
     btn.disabled = true;
     btn.innerText = "Proses...";
 
-    fetch("/beli-mobil", {
-        method: "POST",
-        body: new FormData(this),
+    fetch('/beli/store', {
+        method: 'POST',
         headers: {
             'X-CSRF-TOKEN': csrfToken,
             'Accept': 'application/json'
+        },
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) throw response;
+        return response.json();
+    })
+    .then(data => {
+        // Tampilkan pesan sukses dari Controller
+        alert(data.message);
+    
+        // PINDAH KE WA OTOMATIS
+        if (data.target_url) {
+            window.location.href = data.target_url; 
+        } else {
+            // Jika target_url tidak ada, kembalikan tombol ke semula
+            sedanganMengirim = false;
+            btn.disabled = false;
+            btn.innerText = "KIRIM PEMBELIAN";
         }
     })
-    .then(response => response.json())
-    .then(data => {
-        alert("✅ Pesanan Berhasil!");
-        // 3. Refresh halaman adalah cara paling ampuh mencegah double post di database
-        window.location.href = "/admin/pembelian";
-    })
     .catch(error => {
-        console.error(error);
-        alert("Gagal kirim data.");
-        // Buka kunci hanya jika gagal
+        console.error('Error:', error);
+        alert("Terjadi kesalahan, coba lagi.");
         sedanganMengirim = false;
         btn.disabled = false;
         btn.innerText = "KIRIM PEMBELIAN";
     });
-
-    return false;
-};
+}
 
 });
+
+
+document.getElementById('pembelianForm').addEventListener('submit', function(e) {
+    // 1. Ambil data dari form berdasarkan atribut 'name'
+    const nama = this.querySelector('input[name="nama"]').value;
+    const email = this.querySelector('input[name="email"]').value;
+    const telepon = this.querySelector('input[name="telepon"]').value;
+    const kota = this.querySelector('input[name="kota"]').value;
+    const alamat = this.querySelector('textarea[name="alamat"]').value;
+
+    // 2. Atur Nomor WhatsApp tujuan (gunakan kode negara, misal 62)
+    const noHP = "6285191163819"; 
+
+    // 3. Susun format pesan WhatsApp
+    const pesan = `Halo Admin AutoShow!%0A` +
+                  `Ada pesanan baru nih:%0A%0A` +
+                  `*Nama:* ${nama}%0A` +
+                  `*Email:* ${email}%0A` +
+                  `*Telepon:* ${telepon}%0A` +
+                  `*Kota:* ${kota}%0A` +
+                  `*Alamat:* ${alamat}`;
+
+    // 4. URL WhatsApp
+    const urlWA = `https://wa.me/${noHP}?text=${pesan}`;
+
+    // 5. Buka WhatsApp di tab baru
+    window.open(urlWA, '_blank');
+
+    // Setelah tab WA terbuka, browser akan otomatis melanjutkan 
+    // proses submit form ke route 'pembelian.store' di Laravel.
+});
+
 

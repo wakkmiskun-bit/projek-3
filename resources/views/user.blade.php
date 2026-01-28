@@ -39,181 +39,60 @@
 
     <!-- SECTION KATALOG -->
     <section id="katalog" class="section">
-        <h2 class="section-title">📋 Katalog Mobil</h2>
-        <div class="mobil-list">
+    <h2 class="section-title">📋 Katalog Mobil</h2>
+    <div class="mobil-list">
 
-        <!-- MOBIL CARD 1 -->
+        @foreach($mobils as $m)
         <div class="mobil-card">
             <div class="mobil-info">
-                <img src="/images/civic.jpg" alt="Honda Civic">
+                <img src="{{ asset('storage/' . $m->foto) }}" alt="{{ $m->nama_mobil }}">
             </div>
 
             <div class="mobil-detail">
-                <div class="detail-row"><span class="detail-label">SERI:</span><span class="detail-value">#MB001</span></div>
-                <div class="detail-row"><span class="detail-label">Nama:</span><span class="detail-value">Honda Civic 1.8L</span></div>
-                <div class="detail-row"><span class="detail-label">Merek:</span><span class="detail-value">Honda</span></div>
-                <div class="detail-row"><span class="detail-label">Harga:</span><span class="detail-value">Rp 289.000.000</span></div>
+                <div class="detail-row">
+                    <span class="detail-label">SERI:</span>
+                    <span class="detail-value">{{ $m->seri }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Nama:</span>
+                    <span class="detail-value">{{ $m->nama_mobil }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Merek:</span>
+                    <span class="detail-value">{{ $m->merek }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Harga:</span>
+                    <span class="detail-value">Rp {{ number_format($m->harga, 0, ',', '.') }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Stok:</span>
+                    <span class="detail-value">{{ $m->stok }} Unit</span>
+                </div>
             </div>
 
             <div class="mobil-action">
                 <button class="btn-detail"
-                    data-id="#MB001"
-                    data-nama="Honda Civic 1.8L"
-                    data-merek="Honda"
-                    data-harga="Rp 289.000.000"
-                    data-mesin="1.8L DOHC"
-                    data-transmisi="CVT"
-                    data-bahanbakar="Bensin"
-                    data-cc="1800 cc"
-                    data-warna="Putih"
-                    data-tahun="2023"
-                    data-penggerak="FWD">📋 Detail</button>
+                    data-id="{{ $m->seri }}"
+                    data-nama="{{ $m->nama_mobil }}"
+                    data-merek="{{ $m->merek }}"
+                    data-harga="Rp {{ number_format($m->harga, 0, ',', '.') }}">
+                    📋 Detail
+                </button>
 
                 <button class="btn-beli"
-                    data-id="#MB001"
-                    data-nama="Honda Civic 1.8L"
-                    data-harga="Rp 289.000.000">🛒 Beli</button>
+                    onclick="openModalPembelian('{{ $m->nama_mobil }}')"
+                    data-id="{{ $m->seri }}"
+                    data-nama="{{ $m->nama_mobil }}"
+                    data-harga="Rp {{ number_format($m->harga, 0, ',', '.') }}">
+                    🛒 Beli
+                </button>
             </div>
         </div>
+        @endforeach
 
-        <!-- MOBIL CARD 2 -->
-        <div class="mobil-card">
-            <div class="mobil-info">
-                <img src="/images/brio.jpg" alt="Honda Brio">
-            </div>
-
-            <div class="mobil-detail">
-                <div class="detail-row"><span class="detail-label">SERI:</span><span class="detail-value">#MB002</span></div>
-                <div class="detail-row"><span class="detail-label">Nama:</span><span class="detail-value">Honda Brio 1.2L S</span></div>
-                <div class="detail-row"><span class="detail-label">Merek:</span><span class="detail-value">Honda</span></div>
-                <div class="detail-row"><span class="detail-label">Harga:</span><span class="detail-value">Rp 175.000.000</span></div>
-            </div>
-
-            <div class="mobil-action">
-                <button class="btn-detail"
-                    data-id="#MB002"
-                    data-nama="Honda Brio 1.2L S"
-                    data-merek="Honda"
-                    data-harga="Rp 175.000.000"
-                    data-mesin="1.2L DOHC"
-                    data-transmisi="Manual / CVT"
-                    data-bahanbakar="Bensin"
-                    data-cc="1200 cc"
-                    data-warna="Merah"
-                    data-tahun="2023"
-                    data-penggerak="FWD">📋 Detail</button>
-
-                <button class="btn-beli"
-                    data-id="#MB002"
-                    data-nama="Honda Brio 1.2L S"
-                    data-harga="Rp 175.000.000">🛒 Beli</button>
-            </div>
-        </div>
-
-        <!-- MOBIL CARD 3 -->
-        <div class="mobil-card">
-            <div class="mobil-info">
-                <img src="/images/vios.jpg" alt="Toyota Vios">
-            </div>
-
-            <div class="mobil-detail">
-                <div class="detail-row"><span class="detail-label">SERI:</span><span class="detail-value">#MB003</span></div>
-                <div class="detail-row"><span class="detail-label">Nama:</span><span class="detail-value">Toyota Vios 1.5L E</span></div>
-                <div class="detail-row"><span class="detail-label">Merek:</span><span class="detail-value">Toyota</span></div>
-                <div class="detail-row"><span class="detail-label">Harga:</span><span class="detail-value">Rp 198.000.000</span></div>
-            </div>
-
-            <div class="mobil-action">
-                <button class="btn-detail"
-                    data-id="#MB003"
-                    data-nama="Toyota Vios 1.5L E"
-                    data-merek="Toyota"
-                    data-harga="Rp 198.000.000"
-                    data-mesin="1.5L DOHC"
-                    data-transmisi="Manual"
-                    data-bahanbakar="Bensin"
-                    data-cc="1500 cc"
-                    data-warna="Silver"
-                    data-tahun="2023"
-                    data-penggerak="FWD">📋 Detail</button>
-
-                <button class="btn-beli"
-                    data-id="#MB003"
-                    data-nama="Toyota Vios 1.5L E"
-                    data-harga="Rp 198.000.000">🛒 Beli</button>
-            </div>
-        </div>
-
-        <!-- MOBIL CARD 4 -->
-        <div class="mobil-card">
-            <div class="mobil-info">
-                <img src="/images/avanza.jpg" alt="Toyota Avanza">
-            </div>
-
-            <div class="mobil-detail">
-                <div class="detail-row"><span class="detail-label">SERI:</span><span class="detail-value">#MB004</span></div>
-                <div class="detail-row"><span class="detail-label">Nama:</span><span class="detail-value">Toyota Avanza 1.3L</span></div>
-                <div class="detail-row"><span class="detail-label">Merek:</span><span class="detail-value">Toyota</span></div>
-                <div class="detail-row"><span class="detail-label">Harga:</span><span class="detail-value">Rp 225.000.000</span></div>
-            </div>
-
-            <div class="mobil-action">
-                <button class="btn-detail"
-                    data-id="#MB004"
-                    data-nama="Toyota Avanza 1.3L"
-                    data-merek="Toyota"
-                    data-harga="Rp 225.000.000"
-                    data-mesin="1.3L DOHC"
-                    data-transmisi="Manual"
-                    data-bahanbakar="Bensin"
-                    data-cc="1300 cc"
-                    data-warna="Hitam"
-                    data-tahun="2023"
-                    data-penggerak="FWD">📋 Detail</button>
-
-                <button class="btn-beli"
-                    data-id="#MB004"
-                    data-nama="Toyota Avanza 1.3L"
-                    data-harga="Rp 225.000.000">🛒 Beli</button>
-            </div>
-        </div>
-
-        <!-- MOBIL CARD 5 -->
-        <div class="mobil-card">
-            <div class="mobil-info">
-                <img src="/images/inova.jpg" alt="Toyota Innova">
-            </div>
-
-            <div class="mobil-detail">
-                <div class="detail-row"><span class="detail-label">SERI:</span><span class="detail-value">#MB005</span></div>
-                <div class="detail-row"><span class="detail-label">Nama:</span><span class="detail-value">Toyota Innova 2.0L</span></div>
-                <div class="detail-row"><span class="detail-label">Merek:</span><span class="detail-value">Toyota</span></div>
-                <div class="detail-row"><span class="detail-label">Harga:</span><span class="detail-value">Rp 345.000.000</span></div>
-            </div>
-
-            <div class="mobil-action">
-                <button class="btn-detail"
-                    data-id="#MB005"
-                    data-nama="Toyota Innova 2.0L"
-                    data-merek="Toyota"
-                    data-harga="Rp 345.000.000"
-                    data-mesin="2.0L DOHC"
-                    data-transmisi="Automatic"
-                    data-bahanbakar="Bensin"
-                    data-cc="1998 cc"
-                    data-warna="Putih"
-                    data-tahun="2023"
-                    data-penggerak="RWD">📋 Detail</button>
-
-                <button class="btn-beli"
-                    data-id="#MB005"
-                    data-nama="Toyota Innova 2.0L"
-                    data-harga="Rp 345.000.000">🛒 Beli</button>
-            </div>
-        </div>
-    
     </div>
-    </section>
+</section>
 
     <!-- SECTION TENTANG -->
     <section id="tentang" class="section">
@@ -263,13 +142,13 @@
 
 <!-- MODAL BELI -->
 <!-- ========== MODAL FORM BELI ========== -->
-<div id="formModal" class="modal">
+<div id="formModal" id="formPembelian" class="modal">
     <div class="modal-content">
         <span class="close" onclick="closeForm()">&times;</span>
         <h2>📝 Formulir Pembelian Kendaraan</h2>
 
-        <form id="userForm" class="form-grid" method="POST" action="{{ route('pembelian.store') }}">
-            @csrf
+        <form id="pembelianForm" class="form-grid" method="POST" action="{{ route('pembelian.store') }}">
+    @csrf
 
             <div class="form-group">
                 <label>Nama</label>

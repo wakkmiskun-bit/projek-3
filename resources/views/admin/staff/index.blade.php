@@ -44,13 +44,13 @@
                                     <button class="btn btn-sm btn-danger shadow-sm" onclick="return confirm('Yakin ingin menghapus admin ini?')">
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                </form>
+                                </form>[]
                             </div>
                         </td>
                     </tr>
                     @endforeach
                 </tbody>
-            </table>
+            </table>                
         </div>
     </div>
 </div>

@@ -124,62 +124,33 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 
 
-    /* ================= WHATSAPP INTEGRATION ================= */
-    if (userForm) {
-        userForm.onsubmit = function(e) {
-            e.preventDefault();
+   /* ================= KIRIM KE LARAVEL DULU ================= */
+if (userForm) {
+    userForm.addEventListener("submit", function(e) {
+        e.preventDefault();
 
-            // Ambil data dari form
-            const nama = document.querySelector('input[name="nama"]').value;
-            const email = document.querySelector('input[name="email"]').value;
-            const telepon = document.querySelector('input[name="telepon"]').value;
-            const kota = document.querySelector('input[name="kota"]').value;
-            const alamat = document.querySelector('textarea[name="alamat"]').value;
-            
-            // Data mobil yang dipilih
-            const mobilNama = mobilNamaInput ? mobilNamaInput.value : '-';
-            const mobilHarga = mobilHargaInput ? mobilHargaInput.value : '-';
-            const mobilId = mobilIdInput ? mobilIdInput.value : '-';
+        const formData = new FormData(userForm);
 
-            // Format pesan WhatsApp
-            const message = `
-🚗 *PEMBELIAN MOBIL BARU*
-━━━━━━━━━━━━━━━━━━━━
+        fetch("/beli-mobil", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            alert(data.message);
+            window.open(data.target_url, "_blank"); // buka WA dari Laravel
+            userForm.reset();
+            closeModal(formModal);
+        })
+        .catch(err => {
+            console.error(err);
+            alert("❌ Gagal kirim data ke server");
+        });
+    });
+}
 
-📋 *INFORMASI MOBIL*
-• Nama Mobil: ${mobilNama}
-• Seri: ${mobilId}
-• Harga: ${mobilHarga}
-
-👤 *DATA PEMBELI*
-• Nama: ${nama}
-• Email: ${email}
-• Telepon: ${telepon}
-• Kota: ${kota}
-• Alamat: ${alamat}
-
-━━━━━━━━━━━━━━━━━━━━
-Terima kasih telah memesan mobil di AutoShow! 🎉
-            `.trim();
-
-            // Encode pesan untuk URL WhatsApp
-            const encodedMessage = encodeURIComponent(message);
-            
-            // URL WhatsApp API
-            const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMessage}`;
-            
-            // Buka WhatsApp di tab baru
-            window.open(whatsappURL, '_blank');
-            
-            // Reset form dan tutup modal
-            setTimeout(() => {
-                userForm.reset();
-                closeModal(formModal);
-                alert('✅ Form berhasil dikirim! Silakan lanjutkan di WhatsApp.');
-            }, 500);
-
-            return false;
-        };
-    }
 
 });
